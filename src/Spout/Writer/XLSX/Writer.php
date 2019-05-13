@@ -31,7 +31,7 @@ class Writer extends AbstractMultiSheetsWriter
     protected $book;
 
     /** @var array contain column width information */
-    protected $columnwidths = array();
+    protected $columnwidths = [];
 
     /**
      * Sets a custom temporary folder for creating intermediate files/folders.
@@ -47,6 +47,7 @@ class Writer extends AbstractMultiSheetsWriter
         $this->throwIfWriterAlreadyOpened('Writer must be configured before opening it.');
 
         $this->tempFolder = $tempFolder;
+
         return $this;
     }
 
@@ -64,6 +65,7 @@ class Writer extends AbstractMultiSheetsWriter
         $this->throwIfWriterAlreadyOpened('Writer must be configured before opening it.');
 
         $this->shouldUseInlineStrings = $shouldUseInlineStrings;
+
         return $this;
     }
 
@@ -73,33 +75,36 @@ class Writer extends AbstractMultiSheetsWriter
      */
     public function clearColumnWidth()
     {
-         $this->columnwidths = array();
-         if($this->book)
+        $this->columnwidths = [];
+        if ($this->book) {
             $this->book->_setColumnWidth($this->columnwidths);
+        }
 
-         return $this;
+        return $this;
     }
 
-     /**
+    /**
      * Add a width definition for the next sheet that will be generated
      * @param number $width column width
-     * @param number $min   column position ( A=1 ) where this width should take effect
-     * @param number $max   end of range where width take effect ( default to min )
+     * @param number $min column position ( A=1 ) where this width should take effect
+     * @param number $max end of range where width take effect ( default to min )
      * @return Writer
      */
     public function setColumnsWidth($width, $min, $max = null)
     {
-         if($max === null)
+        if ($max === null) {
             $max = $min;
-         $this->columnwidths[] = array(
+        }
+        $this->columnwidths[] = [
             'width' => $width,
-            'min' => $min,
-            'max' => $max
-        );
-         if($this->book)
+            'min'   => $min,
+            'max'   => $max,
+        ];
+        if ($this->book) {
             $this->book->_setColumnWidth($this->columnwidths);
+        }
 
-         return $this;
+        return $this;
     }
 
     /**
@@ -111,8 +116,9 @@ class Writer extends AbstractMultiSheetsWriter
     protected function openWriter()
     {
         if (!$this->book) {
-            $tempFolder = ($this->tempFolder) ? : sys_get_temp_dir();
-            $this->book = new Workbook($tempFolder, $this->shouldUseInlineStrings, $this->shouldCreateNewSheetsAutomatically, $this->defaultRowStyle, $this->columnwidths);
+            $tempFolder = ($this->tempFolder) ?: sys_get_temp_dir();
+            $this->book = new Workbook($tempFolder, $this->shouldUseInlineStrings,
+                $this->shouldCreateNewSheetsAutomatically, $this->defaultRowStyle, $this->columnwidths);
             $this->book->addNewSheetAndMakeItCurrent();
         }
     }
