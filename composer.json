@@ -1,5 +1,5 @@
 {
-    "name": "dramosv90/spout",
+    "name": "smart145/spout",
     "description": "PHP Library to read and write spreadsheet files (CSV, XLSX and ODS), in a fast and scalable way",
     "type": "library",
     "keywords": [
