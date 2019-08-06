@@ -118,8 +118,7 @@ EOD;
                 );
             }
         }
-
-        fwrite($this->sheetFilePointer, self::SHEET_VIEW_XML_DATA);
+        
         fwrite($this->sheetFilePointer, '<sheetData>');
     }
 
