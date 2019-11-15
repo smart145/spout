@@ -61,7 +61,7 @@ class CellHelper
      */
     public static function isNonEmptyString($value)
     {
-        return (gettype($value) === 'string' && $value !== '' && preg_match('#^-?\d+\.?\d*$#', $value) === 0);
+        return (gettype($value) === 'string' && $value !== '' && !$this->isNumeric($value));
     }
 
     /**
