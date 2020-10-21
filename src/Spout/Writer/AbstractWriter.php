@@ -209,7 +209,10 @@ abstract class AbstractWriter implements WriterInterface
             // empty $dataRow should not add an empty line
             if (!empty($dataRow)) {
                 try {
-                    $this->addRowToWriter($dataRow, $this->rowStyle);
+                    $sanitizeData = Arr::where($dataRow, function ($item, $key) {
+                        return !Str::startsWith($key, '_');
+                    });
+                    $this->addRowToWriter($sanitizeData, $this->rowStyle);
                 } catch (SpoutException $e) {
                     // if an exception occurs while writing data,
                     // close the writer and remove all files created so far.
